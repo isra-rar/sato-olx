@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build: . # Constrói a imagem a partir do Dockerfile
+    container_name: olx-anuncios-app
+    ports:
+      - "8080:8080" # Expondo a API e o Swagger
+    environment:
+      # Variáveis de ambiente para configuração do banco
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - olxnet
+
+  db:
+    image: postgres:15
+    container_name: olx-anuncios-db
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432" # Expondo o banco para acesso externo (cuidado com firewall!)
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - olxnet
+
+volumes:
+  db_data:
+    # Volume persistente para os dados do banco
+
+networks:
+  olxnet:
+    # Rede interna para comunicação segura entre app e banco 
