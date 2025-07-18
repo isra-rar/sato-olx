@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/olx
+    username: default
+    password: default
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    serialization:
+      write-enums-using-to-string: true
+    deserialization:
+      read-enums-using-to-string: true
+
+logging:
+  level:
+    root: INFO
+    com.rodg.festamissionaria: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+
+anuncios:
+  size: 50
+  clientes:
+    - email: redeveiculosjp@gmail.com
+      senha: Rede1192*!
+    # Adicione mais clientes aqui
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    operationsSorter: method
+    tagsSorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: false
